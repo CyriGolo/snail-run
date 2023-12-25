@@ -75,7 +75,7 @@ function start() {
   } 
   let run = setInterval(() => {
     for(let i = 0; i<players.length; i++) {
-      let rdm = Math.floor(Math.random()*10)
+      let rdm = Math.floor(Math.random()*8)
       players[i].style.marginLeft = parseInt(players[i].style.marginLeft) + rdm + "px";
       if(players[i].offsetLeft >= document.querySelector(".line").offsetLeft) {
         clearInterval(run)

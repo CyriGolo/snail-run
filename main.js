@@ -35,7 +35,7 @@ function nbPlayers() {
 
   if(isNaN(nbPlayer) == false && nbPlayer > 1 && nbPlayer <= 10) {
     createPlayers(parseInt(nbPlayer))
-  } else {
+  } else if(nbPlayer != "exit"){
     alert('Merci de remplir un nombre valide et supérieur à 1')
     nbPlayers()
   }
@@ -65,29 +65,43 @@ function createPlayers(nb) {
       alert('Merci de remplir un nom valide.')
     }
   }
-  start()
+  document.querySelector('#start').hidden = false;
+  setTimeout(() => {
+    document.querySelector('#start').textContent = '2';
+    setTimeout(() => {
+      document.querySelector('#start').textContent = '1';
+      setTimeout(() => {
+        document.querySelector('#start').textContent = 'START !';
+        setTimeout(() =>{
+          document.querySelector('#start').hidden = true;
+          race.style.filter = "blur(0px)";
+          start();
+        }, 1000)
+      }, 1000);
+    }, 1000);
+  }, 1000);
 }
 
 function start() {
-  let players = document.querySelectorAll(".player");
-  for(let i = 0; i<players.length; i++){
-    players[i].style.marginLeft = "1px"
-  } 
-  let run = setInterval(() => {
-    for(let i = 0; i<players.length; i++) {
-      let rdm = Math.floor(Math.random()*15)
-      players[i].style.marginLeft = parseInt(players[i].style.marginLeft) + rdm + "px";
-      if(players[i].offsetLeft >= document.querySelector(".line").offsetLeft) {
-        clearInterval(run)
-        document.querySelector('h1').textContent = document.querySelectorAll('p')[i].textContent;
-        setInterval(createConfetti, 200);
-        setTimeout(() => {
-          document.querySelector('#win').style.opacity = "100";
-          race.style.filter = "blur(10px)";
-        }, 2000);
+    let players = document.querySelectorAll(".player");
+    for(let i = 0; i<players.length; i++){
+      players[i].style.marginLeft = "1px"
+    } 
+    let run = setInterval(() => {
+      for(let i = 0; i<players.length; i++) {
+        let rdm = Math.floor(Math.random()*15)
+        players[i].style.marginLeft = parseInt(players[i].style.marginLeft) + rdm + "px";
+        if(players[i].offsetLeft >= document.querySelector(".line").offsetLeft) {
+          clearInterval(run)
+          document.querySelector('#winName').textContent = document.querySelectorAll('p')[i].textContent;
+          setInterval(createConfetti, 200);
+          setTimeout(() => {
+            document.querySelector('#win').style.opacity = "100";
+            race.style.filter = "blur(10px)";
+          }, 2000);
+        }
       }
-    }
-  }, 50);
+    }, 50);
 }
 
 function createConfetti() {
